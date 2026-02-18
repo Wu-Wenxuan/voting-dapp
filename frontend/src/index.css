@@ -1,0 +1,180 @@
+/* ── Reset & base ───────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: #0f1117;
+  color: #e2e8f0;
+  min-height: 100vh;
+}
+
+/* ── Layout ─────────────────────────────────────────── */
+.app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* ── Header ─────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #1e2533;
+}
+
+.header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.header h1 span { color: #6366f1; }
+
+/* ── Buttons ─────────────────────────────────────────── */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  transition: opacity 0.15s, transform 0.1s;
+}
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button:not(:disabled):hover { opacity: 0.88; }
+button:not(:disabled):active { transform: scale(0.97); }
+
+.btn-primary   { background: #6366f1; color: #fff; }
+.btn-yes       { background: #22c55e; color: #fff; }
+.btn-no        { background: #ef4444; color: #fff; }
+.btn-close     { background: #475569; color: #fff; }
+.btn-connect   { background: #6366f1; color: #fff; padding: 0.6rem 1.4rem; }
+
+/* ── Card ────────────────────────────────────────────── */
+.card {
+  background: #1a1f2e;
+  border: 1px solid #1e2533;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+/* ── Form (CreateProposal) ───────────────────────────── */
+.create-form { margin-bottom: 2.5rem; }
+.create-form h2 { font-size: 1.1rem; margin-bottom: 1rem; color: #94a3b8; }
+
+.form-group { margin-bottom: 0.9rem; }
+.form-group label { display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 0.3rem; }
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  background: #0f1117;
+  border: 1px solid #1e2533;
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  padding: 0.6rem 0.9rem;
+  outline: none;
+  resize: vertical;
+}
+.form-group input:focus,
+.form-group textarea:focus { border-color: #6366f1; }
+
+/* ── Proposal card ───────────────────────────────────── */
+.proposal-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.proposal-title  { font-size: 1.05rem; font-weight: 600; }
+.proposal-desc   { color: #94a3b8; font-size: 0.88rem; margin-top: 0.35rem; line-height: 1.5; }
+.proposal-meta   { font-size: 0.75rem; color: #475569; margin-top: 0.6rem; }
+
+.badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+.badge-active { background: #14532d; color: #4ade80; }
+.badge-closed { background: #1e1b4b; color: #818cf8; }
+
+/* ── Vote bar ────────────────────────────────────────── */
+.vote-stats { margin-top: 1.1rem; }
+.vote-counts { display: flex; gap: 1.5rem; font-size: 0.85rem; margin-bottom: 0.5rem; }
+.yes-count { color: #4ade80; font-weight: 600; }
+.no-count  { color: #f87171; font-weight: 600; }
+
+.vote-bar-bg {
+  height: 6px;
+  background: #1e2533;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.vote-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #22c55e 0%, #6366f1 100%);
+  transition: width 0.4s ease;
+}
+
+/* ── Vote actions ────────────────────────────────────── */
+.vote-actions { display: flex; gap: 0.6rem; margin-top: 1rem; align-items: center; flex-wrap: wrap; }
+.voted-badge  { font-size: 0.8rem; color: #94a3b8; margin-left: auto; }
+
+/* ── Empty state ─────────────────────────────────────── */
+.empty-state { text-align: center; padding: 4rem 2rem; color: #475569; }
+.empty-state p { margin-top: 0.5rem; font-size: 0.9rem; }
+
+/* ── Wallet ──────────────────────────────────────────── */
+.wallet-badge {
+  background: #1a1f2e;
+  border: 1px solid #1e2533;
+  border-radius: 8px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+.wallet-badge span { color: #e2e8f0; font-weight: 600; }
+
+/* ── Toast ───────────────────────────────────────────── */
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 100;
+}
+.toast {
+  background: #1a1f2e;
+  border: 1px solid #1e2533;
+  border-left: 4px solid #6366f1;
+  border-radius: 8px;
+  padding: 0.75rem 1.1rem;
+  font-size: 0.875rem;
+  color: #e2e8f0;
+  animation: slide-in 0.2s ease;
+  max-width: 320px;
+}
+.toast.error { border-left-color: #ef4444; }
+.toast.success { border-left-color: #22c55e; }
+
+@keyframes slide-in {
+  from { transform: translateX(110%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+/* ── Section heading ─────────────────────────────────── */
+.section-heading {
+  font-size: 1.1rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-heading strong { color: #e2e8f0; }
