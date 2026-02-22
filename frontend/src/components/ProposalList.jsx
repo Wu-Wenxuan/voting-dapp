@@ -6,7 +6,6 @@ export default function ProposalList({
   account,
   onVote,
   onClose,
-  checkHasVoted,
   loading,
 }) {
   if (proposals.length === 0) {
@@ -30,7 +29,6 @@ export default function ProposalList({
           account={account}
           onVote={onVote}
           onClose={onClose}
-          checkHasVoted={checkHasVoted}
           loading={loading}
         />
       ))}

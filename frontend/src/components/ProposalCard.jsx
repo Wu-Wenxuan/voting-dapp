@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import VoteModal from "./VoteModal";
 
 const SECONDS_DAY = 86400;
 
 function timeAgo(ts) {
   const diff = Math.floor(Date.now() / 1000) - ts;
-  if (diff < 60)  return "just now";
+  if (diff < 60)   return "just now";
   if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
   if (diff < SECONDS_DAY) return `${Math.floor(diff / 3600)}h ago`;
   return `${Math.floor(diff / SECONDS_DAY)}d ago`;
@@ -14,32 +15,12 @@ function shortAddr(addr = "") {
   return addr.slice(0, 6) + "…" + addr.slice(-4);
 }
 
-export default function ProposalCard({
-  proposal,
-  account,
-  onVote,
-  onClose,
-  checkHasVoted,
-  loading,
-}) {
+export default function ProposalCard({ proposal, account, onVote, onClose, loading }) {
   const { id, title, description, creator, yesVotes, noVotes, active, createdAt } = proposal;
-  const total = yesVotes + noVotes;
+  const total  = yesVotes + noVotes;
   const yesPct = total === 0 ? 0 : Math.round((yesVotes / total) * 100);
 
-  const [voted, setVoted] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-    async function check() {
-      if (account) {
-        const v = await checkHasVoted(id);
-        if (!cancelled) setVoted(v);
-      }
-    }
-    check();
-    return () => { cancelled = true; };
-  }, [id, account, checkHasVoted]);
-
+  const [showVoteModal, setShowVoteModal] = useState(false);
   const isCreator = account?.toLowerCase() === creator.toLowerCase();
 
   return (
@@ -68,36 +49,21 @@ export default function ProposalCard({
           </span>
         </div>
         <div className="vote-bar-bg">
-          <div
-            className="vote-bar-fill"
-            style={{ width: `${yesPct}%` }}
-          />
+          <div className="vote-bar-fill" style={{ width: `${yesPct}%` }} />
         </div>
       </div>
 
       {/* Actions */}
       {active && account && (
         <div className="vote-actions">
-          {voted ? (
-            <span className="voted-badge">You have already voted.</span>
-          ) : (
-            <>
-              <button
-                className="btn-yes"
-                disabled={loading}
-                onClick={() => onVote(id, true)}
-              >
-                Vote YES
-              </button>
-              <button
-                className="btn-no"
-                disabled={loading}
-                onClick={() => onVote(id, false)}
-              >
-                Vote NO
-              </button>
-            </>
-          )}
+          <button
+            className="btn-yes"
+            disabled={loading}
+            onClick={() => setShowVoteModal(true)}
+          >
+            🔒 Vote Anonymously
+          </button>
+
           {isCreator && (
             <button
               className="btn-close"
@@ -109,6 +75,16 @@ export default function ProposalCard({
             </button>
           )}
         </div>
+      )}
+
+      {showVoteModal && (
+        <VoteModal
+          proposalId={id}
+          proposalTitle={title}
+          onVote={onVote}
+          onClose={() => setShowVoteModal(false)}
+          loading={loading}
+        />
       )}
     </div>
   );

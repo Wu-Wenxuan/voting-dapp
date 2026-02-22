@@ -2,34 +2,39 @@ import React, { useEffect, useState } from "react";
 import ConnectWallet from "./components/ConnectWallet";
 import CreateProposal from "./components/CreateProposal";
 import ProposalList from "./components/ProposalList";
+import RegisterModal from "./components/RegisterModal";
 import { useVoting, CONTRACT_ADDRESS } from "./hooks/useVoting";
 
 export default function App() {
   const {
     account, proposals, loading, toasts,
-    connect, loadProposals, createProposal, castVote, closeProposal, checkHasVoted,
+    connect, loadProposals, createProposal, castVote, closeProposal, registerVoter,
   } = useVoting();
 
-  // Load proposals once wallet is ready (or on mount if read-only)
-  const [initialized, setInitialized] = useState(false);
-  useEffect(() => {
-    if (!initialized && CONTRACT_ADDRESS) {
-      // We can still read proposals without a wallet via a read-only provider
-      // but for simplicity we wait until the user connects.
-      setInitialized(true);
-    }
-  }, [initialized]);
+  const [showRegister, setShowRegister] = useState(false);
 
   useEffect(() => {
     if (account) loadProposals();
   }, [account]); // eslint-disable-line
+
+  async function handleRegister(commitment) {
+    await registerVoter(commitment);
+    setShowRegister(false);
+  }
 
   return (
     <div className="app">
       {/* ── Header ─────────────────────────────────────── */}
       <header className="header">
         <h1>🗳 <span>Chain</span>Vote</h1>
-        <ConnectWallet account={account} onConnect={connect} />
+        <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+          {account && (
+            <button className="btn-register" onClick={() => setShowRegister(true)}>
+              🔑 Register to Vote
+            </button>
+          )}
+          <ConnectWallet account={account} onConnect={connect} />
+        </div>
       </header>
 
       {/* ── Contract address warning ─────────────────── */}
@@ -38,6 +43,16 @@ export default function App() {
           <p style={{ fontSize: "0.875rem", color: "#a78bfa" }}>
             ⚠️ <strong>No contract address set.</strong> Deploy the contract with Foundry, then set{" "}
             <code>VITE_CONTRACT_ADDRESS</code> in <code>frontend/.env</code>.
+          </p>
+        </div>
+      )}
+
+      {/* ── ZK info banner ───────────────────────────── */}
+      {account && (
+        <div className="card zk-banner" style={{ marginBottom: "1.5rem" }}>
+          <p style={{ fontSize: "0.875rem", color: "#a78bfa", margin: 0 }}>
+            🔒 <strong>ZK Private Voting enabled.</strong> Register once with a secret commitment,
+            then vote anonymously — the contract only learns that an eligible voter voted, not who.
           </p>
         </div>
       )}
@@ -55,7 +70,6 @@ export default function App() {
         account={account}
         onVote={castVote}
         onClose={closeProposal}
-        checkHasVoted={checkHasVoted}
         loading={loading}
       />
 
@@ -66,6 +80,15 @@ export default function App() {
             {loading ? "Loading…" : "↻ Refresh"}
           </button>
         </div>
+      )}
+
+      {/* ── Register Modal ─────────────────────────────── */}
+      {showRegister && (
+        <RegisterModal
+          onRegister={handleRegister}
+          onClose={() => setShowRegister(false)}
+          loading={loading}
+        />
       )}
 
       {/* ── Toasts ─────────────────────────────────────── */}

@@ -178,3 +178,76 @@ button:not(:disabled):active { transform: scale(0.97); }
   gap: 0.5rem;
 }
 .section-heading strong { color: #e2e8f0; }
+
+/* ── Register button ─────────────────────────────────── */
+.btn-register {
+  background: linear-gradient(135deg, #7c3aed, #6366f1);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-register:hover { opacity: 0.85; }
+
+/* ── Modal overlay ───────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 1rem;
+}
+.modal {
+  background: #1a1f2e;
+  border: 1px solid #2d3748;
+  border-radius: 14px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.modal h2 { margin: 0; font-size: 1.3rem; color: #e2e8f0; }
+.modal-info { font-size: 0.875rem; color: #94a3b8; margin: 0; }
+
+/* ── Credential box ──────────────────────────────────── */
+.credential-box {
+  background: #0f1117;
+  border: 1px solid #2d3748;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.credential-box label { font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase; }
+.credential-value {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: #a78bfa;
+  word-break: break-all;
+  background: #1a1f2e;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+}
+
+/* ── Text input ──────────────────────────────────────── */
+.text-input {
+  background: #0f1117;
+  border: 1px solid #2d3748;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  color: #e2e8f0;
+  font-size: 0.875rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+.text-input:focus { outline: none; border-color: #6366f1; }

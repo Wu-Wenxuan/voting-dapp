@@ -1,6 +1,17 @@
 {
   "abi": [
     {
+      "type": "constructor",
+      "inputs": [
+        {
+          "name": "_verifier",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "stateMutability": "nonpayable"
+    },
+    {
       "type": "function",
       "name": "closeProposal",
       "inputs": [
@@ -12,6 +23,25 @@
       ],
       "outputs": [],
       "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "commitments",
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool",
+          "internalType": "bool"
+        }
+      ],
+      "stateMutability": "view"
     },
     {
       "type": "function",
@@ -168,30 +198,6 @@
     },
     {
       "type": "function",
-      "name": "hasVoted",
-      "inputs": [
-        {
-          "name": "",
-          "type": "uint256",
-          "internalType": "uint256"
-        },
-        {
-          "name": "",
-          "type": "address",
-          "internalType": "address"
-        }
-      ],
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool",
-          "internalType": "bool"
-        }
-      ],
-      "stateMutability": "view"
-    },
-    {
-      "type": "function",
       "name": "proposals",
       "inputs": [
         {
@@ -246,6 +252,51 @@
     },
     {
       "type": "function",
+      "name": "register",
+      "inputs": [
+        {
+          "name": "commitment",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "usedNullifiers",
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool",
+          "internalType": "bool"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "verifier",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "contract Groth16Verifier"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
       "name": "vote",
       "inputs": [
         {
@@ -257,10 +308,43 @@
           "name": "support",
           "type": "bool",
           "internalType": "bool"
+        },
+        {
+          "name": "pA",
+          "type": "uint256[2]",
+          "internalType": "uint256[2]"
+        },
+        {
+          "name": "pB",
+          "type": "uint256[2][2]",
+          "internalType": "uint256[2][2]"
+        },
+        {
+          "name": "pC",
+          "type": "uint256[2]",
+          "internalType": "uint256[2]"
+        },
+        {
+          "name": "pubSignals",
+          "type": "uint256[3]",
+          "internalType": "uint256[3]"
         }
       ],
       "outputs": [],
       "stateMutability": "nonpayable"
+    },
+    {
+      "type": "event",
+      "name": "CommitmentRegistered",
+      "inputs": [
+        {
+          "name": "commitment",
+          "type": "uint256",
+          "indexed": true,
+          "internalType": "uint256"
+        }
+      ],
+      "anonymous": false
     },
     {
       "type": "event",
@@ -323,12 +407,6 @@
           "internalType": "uint256"
         },
         {
-          "name": "voter",
-          "type": "address",
-          "indexed": true,
-          "internalType": "address"
-        },
-        {
           "name": "support",
           "type": "bool",
           "indexed": false,
@@ -339,23 +417,34 @@
     },
     {
       "type": "error",
-      "name": "AlreadyVoted",
+      "name": "CommitmentAlreadyRegistered",
       "inputs": [
         {
-          "name": "proposalId",
+          "name": "commitment",
           "type": "uint256",
           "internalType": "uint256"
-        },
+        }
+      ]
+    },
+    {
+      "type": "error",
+      "name": "CommitmentNotRegistered",
+      "inputs": [
         {
-          "name": "voter",
-          "type": "address",
-          "internalType": "address"
+          "name": "commitment",
+          "type": "uint256",
+          "internalType": "uint256"
         }
       ]
     },
     {
       "type": "error",
       "name": "EmptyTitle",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "InvalidProof",
       "inputs": []
     },
     {
@@ -376,6 +465,17 @@
     },
     {
       "type": "error",
+      "name": "NullifierAlreadyUsed",
+      "inputs": [
+        {
+          "name": "nullifierHash",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ]
+    },
+    {
+      "type": "error",
       "name": "ProposalClosed_Err",
       "inputs": [
         {
@@ -384,6 +484,11 @@
           "internalType": "uint256"
         }
       ]
+    },
+    {
+      "type": "error",
+      "name": "ProposalIdMismatch",
+      "inputs": []
     },
     {
       "type": "error",
